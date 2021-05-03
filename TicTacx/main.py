@@ -12,20 +12,21 @@ def on_click(widget, x, y):
         if parziale != nGiocatori:
             widget['text'] = nGiocatori - (parziale - 1)
             A[x][y] = nGiocatori - (parziale - 1)
+            b = nGiocatori - (parziale - 1)
             print(A)
-            print("Giocatore" +(nGiocatori - (parziale - 1))+ "è il tuo turno")
+            print("Giocatore", b+1, "è il tuo turno")
             parziale = parziale - 1
         if parziale == nGiocatori:
             widget['text'] = 1
             A[x][y] = 1
             print(A)
-            print("Giocatore 1 è il tuo turno")
+            print("Giocatore 2 è il tuo turno")
             parziale = parziale - 1
         if parziale == 0:
             widget['text'] = nGiocatori
             A[x][y] = nGiocatori
             print(A)
-            print("Giocatore" +nGiocatori+ "è il tuo turno")
+            print("Giocatore 1 è il tuo turno")
             parziale = nGiocatori
 
     else:

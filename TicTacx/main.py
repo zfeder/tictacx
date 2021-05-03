@@ -32,6 +32,13 @@ def on_click(widget, x, y):
     else:
         print('Casella già occupata')
 
+    for y in range(nLato):
+        for x in range(nLato):
+            for n in range(1, nLato - x):
+                if A[x][y] == A[x + n][y] and A[x][y] != 0:
+                    print("Consecutivo", A[x][y], A[x+n][y])
+
+
 
 def rigaCall():
     riga = input("Scegli la riga:");

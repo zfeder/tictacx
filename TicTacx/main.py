@@ -1,9 +1,12 @@
 import tkinter as tk
 from tkinter import font as tkFont
+import numpy as np
+root = tk.Tk()
+
+root.title('Filetto')
+
 
 # --- functions ---
-import numpy as np
-
 
 def on_click(widget, x, y):
     print('clicked')
@@ -48,7 +51,7 @@ def colonnaCall():
 # --- main ---
 
 
-root = tk.Tk()
+
 lato = input('Inserisci la grandezza della griglia: ')
 print(lato)
 nLato = int(lato)
@@ -61,8 +64,7 @@ A = np.zeros((nLato, nLato))
 
 for y in range(nLato):
     for x in range(nLato):
-        helv36 = tkFont.Font(family='Helvetica', size=20, weight=tkFont.BOLD)
-        button = tk.Button(root, font=helv36, height=5, width=10, text="0")
+        button = tk.Button(root, text = "0", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace")
         button['command'] = lambda x=x, y=y, arg=button: on_click(arg, y, x)
         button.grid(row=y, column=x)
 

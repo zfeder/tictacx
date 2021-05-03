@@ -3,7 +3,7 @@ from tkinter import font as tkFont
 
 # --- functions ---
 import numpy as np
-
+#riordinamento
 
 def on_click(widget, x, y):
     print('clicked')

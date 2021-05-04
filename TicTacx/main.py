@@ -43,17 +43,30 @@ def on_click(widget, x, y):
             turno = nGiocatori
 
         turnoInt = int(turno)
-        consecutivi = check_row(x, y, turnoInt)
-        print(consecutivi)
+        consecutiviRighe = check_row(x, y, turnoInt)
+        print("Righe Consecutive: ", consecutiviRighe)
+        consecutiviColonne = check_column(x, y, turnoInt)
+        print("Colonne Consecutive: ", consecutiviColonne)
 
-        if consecutivi == 3:
+        if consecutiviRighe == 3:
             punteggi[turnoInt - 1] = punteggi[turnoInt - 1] + 2
-        if consecutivi == 4:
+        if consecutiviRighe == 4:
             punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 2) + 10
-        if consecutivi == 5:
+        if consecutiviRighe == 5:
             punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 10) + 50
-        print(punteggi[turnoInt - 1])
-        if punteggi[turnoInt - 1] == 50:
+        if punteggi[turnoInt - 1] > 49:
+            s = "Ha vinto il giocatore " + str(turnoInt)
+            messagebox.showinfo("CONGRATULAZIONI!", s)
+            disable_button(widget)
+
+        if consecutiviColonne == 3:
+            punteggi[turnoInt - 1] = punteggi[turnoInt - 1] + 2
+        if consecutiviColonne == 4:
+            punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 2) + 10
+        if consecutiviColonne == 5:
+            punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 10) + 50
+        print("Punteggio: ", punteggi[turnoInt - 1])
+        if punteggi[turnoInt - 1] > 49:
             s = "Ha vinto il giocatore " + str(turnoInt)
             messagebox.showinfo("CONGRATULAZIONI!", s)
             disable_button(widget)
@@ -76,6 +89,27 @@ def check_row(x, y, move):
     i = 1
     while (i + y < nLato) and flag:
         if A[x][y + i] != move:
+            flag = False
+        else:
+            counter = counter + 1
+        i = i + 1
+    return counter
+
+
+def check_column(x, y, move):
+    flag = True
+    counter = 0
+    i = 0
+    while (i + x >= 0) and flag:
+        if A[x + i][y] != move:
+            flag = False
+        else:
+            counter = counter + 1
+        i = i - 1
+    flag = True
+    i = 1
+    while (i + x < nLato) and flag:
+        if A[x + i][y] != move:
             flag = False
         else:
             counter = counter + 1

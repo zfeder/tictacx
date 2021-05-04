@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import font as tkFont
 import numpy as np
 
 root = tk.Tk()
@@ -34,14 +33,22 @@ def on_click(widget, x, y):
             turno = nGiocatori
 
         turnoInt = int(turno)
-        prova = checkRiga(x, y, turnoInt)
-        print(prova)
+        consecutivi = check_riga(x, y, turnoInt)
+        print(consecutivi)
+
+        if consecutivi == 3:
+            punteggi[turnoInt-1] = punteggi[turnoInt-1] + 2
+        if consecutivi == 4:
+            punteggi[turnoInt-1] = (punteggi[turnoInt-1] - 2) + 10
+        if consecutivi == 5:
+            punteggi[turnoInt-1] = (punteggi[turnoInt-1] - 10) + 50
+        print(punteggi[turnoInt-1])
 
     else:
         print('Casella già occupata')
 
 
-def checkRiga(x, y, move):
+def check_riga(x, y, move):
     flag = True
     counter = 0
     i = 0
@@ -84,4 +91,5 @@ for y in range(nLato):
         button.grid(row=y, column=x)
 
 print("Giocatore 1 è il tuo turno")
+punteggi = np.zeros(nGiocatori)
 root.mainloop()

@@ -8,7 +8,6 @@ root.title('Filetto')
 
 # --- functions ---
 def on_click(widget, x, y):
-    print('clicked')
     global parziale
     if A[x][y] == 0:
         if parziale != nGiocatori:
@@ -17,6 +16,7 @@ def on_click(widget, x, y):
             b = nGiocatori - (parziale - 1)
             print(A)
             print("Giocatore", b + 1, "è il tuo turno")
+            turno = nGiocatori - (parziale - 1)
             parziale = parziale - 1
         if parziale == nGiocatori:
             widget['text'] = 1
@@ -24,33 +24,46 @@ def on_click(widget, x, y):
             print(A)
             print("Giocatore 2 è il tuo turno")
             parziale = parziale - 1
+            turno = 1
         if parziale == 0:
             widget['text'] = nGiocatori
             A[x][y] = nGiocatori
             print(A)
             print("Giocatore 1 è il tuo turno")
             parziale = nGiocatori
+            turno = nGiocatori
+
+        turnoInt = int(turno)
+        prova = checkRiga(x, y, turnoInt)
+        print(prova)
 
     else:
         print('Casella già occupata')
 
-    for y in range(nLato):
-        for x in range(nLato):
-            for n in range(1, nLato - x):
-                if A[x][y] == A[x + n][y] and A[x][y] != 0:
-                    print("Consecutivo", A[x][y], A[x + n][y])
+
+def checkRiga(x, y, move):
+    flag = True
+    counter = 0
+    i = 0
+    while (i + y >= 0) and flag:
+        if A[x][y + i] != move:
+            flag = False
+        else:
+            counter = counter + 1
+        i = i - 1
+    flag = True
+    i = 1
+    while (i + y < nLato) and flag:
+        if A[x][y + i] != move:
+            flag = False
+        else:
+            counter = counter + 1
+    return counter
 
 
-def rigaCall():
-    riga = input("Scegli la riga:")
-    nRiga = int(riga)
-    return nRiga
-
-
-def colonnaCall():
-    colonna = input("Scegli la colonna:")
-    nColonna = int(colonna)
-    return nColonna
+def setMove(x, y, move):
+    A[x][y] = move
+    return move
 
 
 # --- main ---
@@ -66,7 +79,7 @@ A = np.zeros((nLato, nLato))
 
 for y in range(nLato):
     for x in range(nLato):
-        button = tk.Button(root, text = "0", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace")
+        button = tk.Button(root, text="0", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace")
         button['command'] = lambda x=x, y=y, arg=button: on_click(arg, y, x)
         button.grid(row=y, column=x)
 

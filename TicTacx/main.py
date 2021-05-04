@@ -79,6 +79,7 @@ def check_row(x, y, move):
             flag = False
         else:
             counter = counter + 1
+        i = i + 1
     return counter
 
 

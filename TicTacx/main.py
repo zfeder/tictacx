@@ -1,6 +1,6 @@
 import tkinter as tk
 import numpy as np
-from tkinter import messagebox, DISABLED
+from tkinter import messagebox, DISABLED, LEFT
 
 root = tk.Tk()
 root.title('Filetto')
@@ -10,7 +10,7 @@ root.title('Filetto')
 def disable_button(widget):
     for y in range(nLato):
         for x in range(nLato):
-            button = tk.Button(root, text="0", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace")
+            button = tk.Button(root, font=("Helvetica", 15), height=3, width=9, bg="SystemButtonFace")
             button.grid(row=y, column=x)
             button.config(state=DISABLED)
 
@@ -145,9 +145,10 @@ parziale = nGiocatori
 
 A = np.zeros((nLato, nLato))
 
+
 for y in range(nLato):
     for x in range(nLato):
-        button = tk.Button(root, text="0", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace")
+        button = tk.Button(root, font=("Helvetica", 15), height=3, width=9, bg="SystemButtonFace")
         button['command'] = lambda x=x, y=y, arg=button: on_click(arg, y, x)
         button.grid(row=y, column=x)
 
@@ -170,7 +171,7 @@ def reset():
 
     for y in range(nLato):
         for x in range(nLato):
-            button = tk.Button(root, text="0", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace")
+            button = tk.Button(root, font=("Helvetica", 15), height=3, width=9, bg="SystemButtonFace")
             button['command'] = lambda x=x, y=y, arg=button: on_click(arg, y, x)
             button.grid(row=y, column=x)
 

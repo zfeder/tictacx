@@ -51,9 +51,15 @@ def on_click(widget, x, y):
         if consecutiviRighe == 3:
             punteggi[turnoInt - 1] = punteggi[turnoInt - 1] + 2
         if consecutiviRighe == 4:
-            punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 2) + 10
+            if punteggi[turnoInt - 1] == 2:
+                punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 2) + 10
+            else:
+                punteggi[turnoInt - 1] = (punteggi[turnoInt - 1]) + 10
         if consecutiviRighe == 5:
-            punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 10) + 50
+            if punteggi[turnoInt - 1] == 10:
+                punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 10) + 50
+            else:
+                punteggi[turnoInt - 1] = (punteggi[turnoInt - 1]) + 50
         if punteggi[turnoInt - 1] > 49:
             s = "Ha vinto il giocatore " + str(turnoInt)
             messagebox.showinfo("CONGRATULAZIONI!", s)
@@ -62,9 +68,15 @@ def on_click(widget, x, y):
         if consecutiviColonne == 3:
             punteggi[turnoInt - 1] = punteggi[turnoInt - 1] + 2
         if consecutiviColonne == 4:
-            punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 2) + 10
+            if punteggi[turnoInt - 1] == 2:
+                punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 2) + 10
+            else:
+                punteggi[turnoInt - 1] = (punteggi[turnoInt - 1]) + 10
         if consecutiviColonne == 5:
-            punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 10) + 50
+            if punteggi[turnoInt - 1] == 10:
+                punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 10) + 50
+            else:
+                punteggi[turnoInt - 1] = (punteggi[turnoInt - 1]) + 50
         print("Punteggio: ", punteggi[turnoInt - 1])
         if punteggi[turnoInt - 1] > 49:
             s = "Ha vinto il giocatore " + str(turnoInt)

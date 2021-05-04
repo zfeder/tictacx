@@ -1,13 +1,23 @@
 import tkinter as tk
 import numpy as np
+from tkinter import messagebox, DISABLED
 
 root = tk.Tk()
 root.title('Filetto')
 
 
 # --- functions ---
+def disable_button(widget):
+    for y in range(nLato):
+        for x in range(nLato):
+            button = tk.Button(root, text="0", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace")
+            button.grid(row=y, column=x)
+            button.config(state=DISABLED)
+
+
 def on_click(widget, x, y):
     global parziale
+    global turnoInt
     if A[x][y] == 0:
         if parziale != nGiocatori:
             widget['text'] = nGiocatori - (parziale - 1)
@@ -33,22 +43,26 @@ def on_click(widget, x, y):
             turno = nGiocatori
 
         turnoInt = int(turno)
-        consecutivi = check_riga(x, y, turnoInt)
+        consecutivi = check_row(x, y, turnoInt)
         print(consecutivi)
 
         if consecutivi == 3:
-            punteggi[turnoInt-1] = punteggi[turnoInt-1] + 2
+            punteggi[turnoInt - 1] = punteggi[turnoInt - 1] + 2
         if consecutivi == 4:
-            punteggi[turnoInt-1] = (punteggi[turnoInt-1] - 2) + 10
+            punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 2) + 10
         if consecutivi == 5:
-            punteggi[turnoInt-1] = (punteggi[turnoInt-1] - 10) + 50
-        print(punteggi[turnoInt-1])
+            punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 10) + 50
+        print(punteggi[turnoInt - 1])
+        if punteggi[turnoInt - 1] == 50:
+            s = "Ha vinto il giocatore " + str(turnoInt)
+            messagebox.showinfo("CONGRATULAZIONI!", s)
+            disable_button(widget)
 
     else:
         print('Casella già occupata')
 
 
-def check_riga(x, y, move):
+def check_row(x, y, move):
     flag = True
     counter = 0
     i = 0
@@ -68,7 +82,7 @@ def check_riga(x, y, move):
     return counter
 
 
-def setMove(x, y, move):
+def set_move(x, y, move):
     A[x][y] = move
     return move
 
@@ -92,4 +106,38 @@ for y in range(nLato):
 
 print("Giocatore 1 è il tuo turno")
 punteggi = np.zeros(nGiocatori)
+
+
+def reset():
+    for y in range(nLato):
+        for x in range(nLato):
+            A[x][y] = 0
+
+    for h in range(nGiocatori):
+        punteggi[h] = 0
+
+    global parziale
+    parziale = nGiocatori
+    global turnoInt
+    turnoInt = 0
+
+    for y in range(nLato):
+        for x in range(nLato):
+            button = tk.Button(root, text="0", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace")
+            button['command'] = lambda x=x, y=y, arg=button: on_click(arg, y, x)
+            button.grid(row=y, column=x)
+
+    print("Giocatore 1 è il tuo turno")
+
+
+# Create menu
+my_menu = tk.Menu(root)
+root.config(menu=my_menu)
+
+# Create Options Menu
+options_menu = tk.Menu(my_menu, tearoff=False)
+my_menu.add_cascade(label="Options", menu=options_menu)
+options_menu.add_command(label="Rest Game", command=reset)
+
+
 root.mainloop()

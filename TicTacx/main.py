@@ -10,8 +10,8 @@ root.title('Filetto')
 def disable_button(widget):
     for y in range(nLato):
         for x in range(nLato):
-            button = tk.Button(root, text="Fine", font=("Helvetica", 20), height=1, width=5, bg="SystemButtonFace")
-            button.grid(row=y, column=x)
+            button = tk.Button(root, text="Finish", font=("Helvetica", 20), height=1, width=5)
+            button.grid(row=y, column=x, pady=2, padx=2)
             button.config(state=DISABLED)
 
 
@@ -191,9 +191,9 @@ A = np.zeros((nLato, nLato))
 
 for y in range(nLato):
     for x in range(nLato):
-        button = tk.Button(root, text="", font=("Helvetica", 20), height=1, width=5, bg="SystemButtonFace")
+        button = tk.Button(root, text="", font=("Helvetica", 20), height=1, width=5)
         button['command'] = lambda x=x, y=y, arg=button: on_click(arg, y, x)
-        button.grid(row=y, column=x)
+        button.grid(row=y, column=x, pady=2, padx=2)
 
 print("Giocatore 1 è il tuo turno")
 punteggi = np.zeros(nGiocatori)
@@ -214,9 +214,9 @@ def reset():
 
     for y in range(nLato):
         for x in range(nLato):
-            button = tk.Button(root, text="", font=("Helvetica", 20), height=1, width=5, bg="SystemButtonFace")
+            button = tk.Button(root, text="", font=("Helvetica", 20), height=1, width=5)
             button['command'] = lambda x=x, y=y, arg=button: on_click(arg, y, x)
-            button.grid(row=y, column=x)
+            button.grid(row=y, column=x, pady=2, padx=2)
 
     print("Giocatore 1 è il tuo turno")
 

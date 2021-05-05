@@ -10,7 +10,7 @@ root.title('Filetto')
 def disable_button(widget):
     for y in range(nLato):
         for x in range(nLato):
-            button = tk.Button(root, text="Fine", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace")
+            button = tk.Button(root, text="Fine", font=("Helvetica", 20), height=1, width=5, bg="SystemButtonFace")
             button.grid(row=y, column=x)
             button.config(state=DISABLED)
 
@@ -64,6 +64,8 @@ def on_click(widget, x, y):
         print("Righe Consecutive: ", consecutiviRighe)
         consecutiviColonne = check_column(x, y, turnoInt)
         print("Colonne Consecutive: ", consecutiviColonne)
+        consecutiviDiagonali = check_diagonal(x, y, turnoInt)
+        print("Diagonali Consecutive: ", consecutiviDiagonali)
 
         if consecutiviRighe == 3:
             punteggi[turnoInt - 1] = punteggi[turnoInt - 1] + 2
@@ -78,8 +80,8 @@ def on_click(widget, x, y):
             else:
                 punteggi[turnoInt - 1] = (punteggi[turnoInt - 1]) + 50
         if punteggi[turnoInt - 1] > 49:
-            s = "Ha vinto il giocatore " + str(turnoInt)
-            messagebox.showinfo("CONGRATULAZIONI!", s)
+            s = "CONGRATULAZIONI! Ha vinto il giocatore " + str(turnoInt)
+            messagebox.showinfo("Filetto", s)
             disable_button(widget)
 
         if consecutiviColonne == 3:
@@ -96,8 +98,8 @@ def on_click(widget, x, y):
                 punteggi[turnoInt - 1] = (punteggi[turnoInt - 1]) + 50
         print("Punteggio: ", punteggi[turnoInt - 1])
         if punteggi[turnoInt - 1] > 49:
-            s = "Ha vinto il giocatore " + str(turnoInt)
-            messagebox.showinfo("CONGRATULAZIONI!", s)
+            s = "CONGRATULAZIONI! Ha vinto il giocatore " + str(turnoInt)
+            messagebox.showinfo("Filetto", s)
             disable_button(widget)
 
     else:
@@ -146,6 +148,27 @@ def check_column(x, y, move):
     return counter
 
 
+def check_diagonal(x, y, move):
+    flag = True
+    counter = 0
+    i = 0
+    while (i + x >= 0) and flag:
+            if A[x + i][y + i] != move:
+                flag = False
+            else:
+                counter = counter + 1
+            i = i - 1
+    flag = True
+    i = 1
+    while (i + x < nLato) and flag:
+            if A[x - 1][y - 1] != move:
+                flag = False
+            else:
+                counter = counter + 1
+            i = i + 1
+    return counter
+
+
 def set_move(x, y, move):
     A[x][y] = move
     return move
@@ -168,7 +191,7 @@ A = np.zeros((nLato, nLato))
 
 for y in range(nLato):
     for x in range(nLato):
-        button = tk.Button(root, text="", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace")
+        button = tk.Button(root, text="", font=("Helvetica", 20), height=1, width=5, bg="SystemButtonFace")
         button['command'] = lambda x=x, y=y, arg=button: on_click(arg, y, x)
         button.grid(row=y, column=x)
 
@@ -191,7 +214,7 @@ def reset():
 
     for y in range(nLato):
         for x in range(nLato):
-            button = tk.Button(root, text="", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace")
+            button = tk.Button(root, text="", font=("Helvetica", 20), height=1, width=5, bg="SystemButtonFace")
             button['command'] = lambda x=x, y=y, arg=button: on_click(arg, y, x)
             button.grid(row=y, column=x)
 

@@ -1,6 +1,6 @@
 import tkinter as tk
 import numpy as np
-from tkinter import messagebox, DISABLED, LEFT
+from tkinter import messagebox, DISABLED
 
 root = tk.Tk()
 root.title('Filetto')
@@ -10,7 +10,7 @@ root.title('Filetto')
 def disable_button(widget):
     for y in range(nLato):
         for x in range(nLato):
-            button = tk.Button(root, font=("Helvetica", 15), height=3, width=9, bg="SystemButtonFace")
+            button = tk.Button(root, text="Fine", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace")
             button.grid(row=y, column=x)
             button.config(state=DISABLED)
 
@@ -19,28 +19,45 @@ def on_click(widget, x, y):
     global parziale
     global turnoInt
     if A[x][y] == 0:
-        if parziale != nGiocatori:
-            widget['text'] = nGiocatori - (parziale - 1)
-            A[x][y] = nGiocatori - (parziale - 1)
-            b = nGiocatori - (parziale - 1)
-            print(A)
-            print("Giocatore", b + 1, "è il tuo turno")
-            turno = nGiocatori - (parziale - 1)
-            parziale = parziale - 1
-        if parziale == nGiocatori:
-            widget['text'] = 1
-            A[x][y] = 1
-            print(A)
-            print("Giocatore 2 è il tuo turno")
-            parziale = parziale - 1
-            turno = 1
-        if parziale == 0:
-            widget['text'] = nGiocatori
-            A[x][y] = nGiocatori
-            print(A)
-            print("Giocatore 1 è il tuo turno")
-            parziale = nGiocatori
-            turno = nGiocatori
+
+        if nGiocatori == 2:
+            if parziale == nGiocatori:
+                widget['text'] = nomiGiocatori[0]
+                A[x][y] = 1
+                print(A)
+                print("Giocatore 2 è il tuo turno")
+                parziale = parziale - 1
+                turno = 1
+            elif parziale == 1:
+                widget['text'] = nomiGiocatori[nGiocatori-1]
+                A[x][y] = nGiocatori
+                print(A)
+                print("Giocatore 1 è il tuo turno")
+                parziale = nGiocatori
+                turno = nGiocatori
+        else:
+            if parziale != nGiocatori:
+                widget['text'] = nomiGiocatori[(nGiocatori - (parziale - 1))-1]
+                A[x][y] = nGiocatori - (parziale - 1)
+                b = nGiocatori - (parziale - 1)
+                print(A)
+                print("Giocatore", b + 1, "è il tuo turno")
+                turno = nGiocatori - (parziale - 1)
+                parziale = parziale - 1
+            if parziale == nGiocatori:
+                widget['text'] = nomiGiocatori[0]
+                A[x][y] = 1
+                print(A)
+                print("Giocatore 2 è il tuo turno")
+                parziale = parziale - 1
+                turno = 1
+            if parziale == 0:
+                widget['text'] = nomiGiocatori[nGiocatori-1]
+                A[x][y] = nGiocatori
+                print(A)
+                print("Giocatore 1 è il tuo turno")
+                parziale = nGiocatori
+                turno = nGiocatori
 
         turnoInt = int(turno)
         consecutiviRighe = check_row(x, y, turnoInt)
@@ -141,14 +158,17 @@ nLato = int(lato)
 Giocatori = input('Inserisci il numero di giocatori: ')
 nGiocatori = int(Giocatori)
 print(nGiocatori)
+nomiGiocatori = ["" for x in range(nGiocatori)]
+for x in range(nGiocatori):
+    s = "Giocatore " + str(x+1) + " inserisci il tuo nome:"
+    nomiGiocatori[x] = input(s)
 parziale = nGiocatori
 
 A = np.zeros((nLato, nLato))
 
-
 for y in range(nLato):
     for x in range(nLato):
-        button = tk.Button(root, font=("Helvetica", 15), height=3, width=9, bg="SystemButtonFace")
+        button = tk.Button(root, text="", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace")
         button['command'] = lambda x=x, y=y, arg=button: on_click(arg, y, x)
         button.grid(row=y, column=x)
 
@@ -171,7 +191,7 @@ def reset():
 
     for y in range(nLato):
         for x in range(nLato):
-            button = tk.Button(root, font=("Helvetica", 15), height=3, width=9, bg="SystemButtonFace")
+            button = tk.Button(root, text="", font=("Helvetica", 20), height=3, width=6, bg="SystemButtonFace")
             button['command'] = lambda x=x, y=y, arg=button: on_click(arg, y, x)
             button.grid(row=y, column=x)
 

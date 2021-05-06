@@ -29,7 +29,7 @@ def on_click(widget, x, y):
                 parziale = parziale - 1
                 turno = 1
             elif parziale == 1:
-                widget['text'] = nomiGiocatori[nGiocatori-1]
+                widget['text'] = nomiGiocatori[nGiocatori - 1]
                 A[x][y] = nGiocatori
                 print(A)
                 print("Giocatore 1 è il tuo turno")
@@ -37,7 +37,7 @@ def on_click(widget, x, y):
                 turno = nGiocatori
         else:
             if parziale != nGiocatori:
-                widget['text'] = nomiGiocatori[(nGiocatori - (parziale - 1))-1]
+                widget['text'] = nomiGiocatori[(nGiocatori - (parziale - 1)) - 1]
                 A[x][y] = nGiocatori - (parziale - 1)
                 b = nGiocatori - (parziale - 1)
                 print(A)
@@ -52,7 +52,7 @@ def on_click(widget, x, y):
                 parziale = parziale - 1
                 turno = 1
             if parziale == 0:
-                widget['text'] = nomiGiocatori[nGiocatori-1]
+                widget['text'] = nomiGiocatori[nGiocatori - 1]
                 A[x][y] = nGiocatori
                 print(A)
                 print("Giocatore 1 è il tuo turno")
@@ -66,41 +66,12 @@ def on_click(widget, x, y):
         print("Colonne Consecutive: ", consecutiviColonne)
         consecutiviDiagonali = check_diagonal(x, y, turnoInt)
         print("Diagonali Consecutive: ", consecutiviDiagonali)
-
-        if consecutiviRighe == 3:
-            punteggi[turnoInt - 1] = punteggi[turnoInt - 1] + 2
-        if consecutiviRighe == 4:
-            if punteggi[turnoInt - 1] == 2:
-                punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 2) + 10
-            else:
-                punteggi[turnoInt - 1] = (punteggi[turnoInt - 1]) + 10
-        if consecutiviRighe == 5:
-            if punteggi[turnoInt - 1] == 10:
-                punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 10) + 50
-            else:
-                punteggi[turnoInt - 1] = (punteggi[turnoInt - 1]) + 50
-        if punteggi[turnoInt - 1] > 49:
-            s = "CONGRATULAZIONI! Ha vinto il giocatore " + str(turnoInt)
-            messagebox.showinfo("Filetto", s)
-            disable_button(widget)
-
-        if consecutiviColonne == 3:
-            punteggi[turnoInt - 1] = punteggi[turnoInt - 1] + 2
-        if consecutiviColonne == 4:
-            if punteggi[turnoInt - 1] == 2:
-                punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 2) + 10
-            else:
-                punteggi[turnoInt - 1] = (punteggi[turnoInt - 1]) + 10
-        if consecutiviColonne == 5:
-            if punteggi[turnoInt - 1] == 10:
-                punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 10) + 50
-            else:
-                punteggi[turnoInt - 1] = (punteggi[turnoInt - 1]) + 50
-        print("Punteggio: ", punteggi[turnoInt - 1])
-        if punteggi[turnoInt - 1] > 49:
-            s = "CONGRATULAZIONI! Ha vinto il giocatore " + str(turnoInt)
-            messagebox.showinfo("Filetto", s)
-            disable_button(widget)
+        consecutiviAntidiagonali = check_antidiagonal(x, y, turnoInt)
+        print("Anti-Diagonali Consecutive: ", consecutiviAntidiagonali)
+        check_punteggio(consecutiviDiagonali, widget)
+        check_punteggio(consecutiviColonne, widget)
+        check_punteggio(consecutiviRighe, widget)
+        print(punteggi[turnoInt - 1])
 
     else:
         print('Casella già occupata')
@@ -148,24 +119,63 @@ def check_column(x, y, move):
     return counter
 
 
+def check_punteggio(x, widget):
+    if x == 3:
+        punteggi[turnoInt - 1] = punteggi[turnoInt - 1] + 2
+    if x == 4:
+        if punteggi[turnoInt - 1] == 2:
+            punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 2) + 10
+        else:
+            punteggi[turnoInt - 1] = (punteggi[turnoInt - 1]) + 10
+    if x == 5:
+        if punteggi[turnoInt - 1] == 10:
+            punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 10) + 50
+        else:
+            punteggi[turnoInt - 1] = (punteggi[turnoInt - 1]) + 50
+    if punteggi[turnoInt - 1] > 49:
+        s = "CONGRATULAZIONI! Ha vinto il giocatore " + str(turnoInt)
+        messagebox.showinfo("Filetto", s)
+        disable_button(widget)
+
+
 def check_diagonal(x, y, move):
     flag = True
     counter = 0
     i = 0
-    while (i + x >= 0) and flag:
-            if A[x + i][y + i] != move:
-                flag = False
-            else:
-                counter = counter + 1
-            i = i - 1
+    while (i + x >= 0 and i + y >= 0) and flag:
+        if A[x + i][y + i] != move:
+            flag = False
+        else:
+            counter = counter + 1
+        i = i - 1
     flag = True
     i = 1
-    while (i + x < nLato) and flag:
-            if A[x - 1][y - 1] != move:
-                flag = False
-            else:
-                counter = counter + 1
-            i = i + 1
+    while (i + x < nLato and i + y < nLato) and flag:
+        if A[x + i][y + i] != move:
+            flag = False
+        else:
+            counter = counter + 1
+        i = i + 1
+    return counter
+
+def check_antidiagonal(x, y, move):
+    flag = True
+    counter = 0
+    i = 0
+    while (i - x >= 0 and i + y >= 0) and flag:
+        if A[x - i][y + i] != move:
+            flag = False
+        else:
+            counter = counter + 1
+        i = i - 1
+    flag = True
+    i = 1
+    while (i + x < nLato and i - y < nLato) and flag:
+        if A[x + i][y - i] != move:
+            flag = False
+        else:
+            counter = counter + 1
+        i = i + 1
     return counter
 
 
@@ -183,7 +193,7 @@ nGiocatori = int(Giocatori)
 print(nGiocatori)
 nomiGiocatori = ["" for x in range(nGiocatori)]
 for x in range(nGiocatori):
-    s = "Giocatore " + str(x+1) + " inserisci il tuo nome:"
+    s = "Giocatore " + str(x + 1) + " inserisci il tuo nome:"
     nomiGiocatori[x] = input(s)
 parziale = nGiocatori
 
@@ -229,6 +239,5 @@ root.config(menu=my_menu)
 options_menu = tk.Menu(my_menu, tearoff=False)
 my_menu.add_cascade(label="Options", menu=options_menu)
 options_menu.add_command(label="Rest Game", command=reset)
-
 
 root.mainloop()

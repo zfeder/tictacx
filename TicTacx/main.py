@@ -10,7 +10,7 @@ root.title('Filetto')
 def disable_button(widget):
     for y in range(nLato):
         for x in range(nLato):
-            button = tk.Button(root, text="Finish", font=("Helvetica", 20), height=1, width=5)
+            button = tk.Button(root, text="End", font=("Helvetica", 20), height=1, width=5)
             button.grid(row=y, column=x, pady=2, padx=2)
             button.config(state=DISABLED)
 
@@ -25,14 +25,14 @@ def on_click(widget, x, y):
                 widget['text'] = nomiGiocatori[0]
                 A[x][y] = 1
                 print(A)
-                print("Giocatore 2 è il tuo turno")
+                s = ("Giocatore 2 è il tuo turno")
                 parziale = parziale - 1
                 turno = 1
             elif parziale == 1:
                 widget['text'] = nomiGiocatori[nGiocatori - 1]
                 A[x][y] = nGiocatori
                 print(A)
-                print("Giocatore 1 è il tuo turno")
+                s = ("Giocatore 1 è il tuo turno")
                 parziale = nGiocatori
                 turno = nGiocatori
         else:
@@ -41,7 +41,7 @@ def on_click(widget, x, y):
                 A[x][y] = nGiocatori - (parziale - 1)
                 b = nGiocatori - (parziale - 1)
                 print(A)
-                print("Giocatore", b + 1, "è il tuo turno")
+                s = ("Giocatore", b + 1, "è il tuo turno")
                 turno = nGiocatori - (parziale - 1)
                 parziale = parziale - 1
             if parziale == nGiocatori:
@@ -71,7 +71,9 @@ def on_click(widget, x, y):
         check_punteggio(consecutiviDiagonali)
         check_punteggio(consecutiviColonne)
         check_punteggio(consecutiviRighe)
+        check_punteggio(consecutiviAntidiagonali)
         print(punteggi[turnoInt - 1])
+        print(s)
 
         if punteggi[turnoInt - 1] > 49:
             s = "CONGRATULAZIONI! Ha vinto il giocatore " + str(turnoInt)
@@ -164,15 +166,15 @@ def check_antidiagonal(x, y, move):
     flag = True
     counter = 0
     i = 0
-    while (i - x >= 0 and i + y >= 0) and flag:
+    while ( x + i >= 0) and flag:
         if A[x - i][y + i] != move:
             flag = False
         else:
             counter = counter + 1
-        i = i - 1
+        i = i + 1
     flag = True
     i = 1
-    while (i + x < nLato and i - y < nLato) and flag:
+    while (i + x < nLato) and flag:
         if A[x + i][y - i] != move:
             flag = False
         else:

@@ -68,10 +68,15 @@ def on_click(widget, x, y):
         print("Diagonali Consecutive: ", consecutiviDiagonali)
         consecutiviAntidiagonali = check_antidiagonal(x, y, turnoInt)
         print("Anti-Diagonali Consecutive: ", consecutiviAntidiagonali)
-        check_punteggio(consecutiviDiagonali, widget)
-        check_punteggio(consecutiviColonne, widget)
-        check_punteggio(consecutiviRighe, widget)
+        check_punteggio(consecutiviDiagonali)
+        check_punteggio(consecutiviColonne)
+        check_punteggio(consecutiviRighe)
         print(punteggi[turnoInt - 1])
+
+        if punteggi[turnoInt - 1] > 49:
+            s = "CONGRATULAZIONI! Ha vinto il giocatore " + str(turnoInt)
+            messagebox.showinfo("Filetto", s)
+            disable_button(widget)
 
     else:
         print('Casella già occupata')
@@ -119,7 +124,7 @@ def check_column(x, y, move):
     return counter
 
 
-def check_punteggio(x, widget):
+def check_punteggio(x):
     if x == 3:
         punteggi[turnoInt - 1] = punteggi[turnoInt - 1] + 2
     if x == 4:
@@ -132,10 +137,7 @@ def check_punteggio(x, widget):
             punteggi[turnoInt - 1] = (punteggi[turnoInt - 1] - 10) + 50
         else:
             punteggi[turnoInt - 1] = (punteggi[turnoInt - 1]) + 50
-    if punteggi[turnoInt - 1] > 49:
-        s = "CONGRATULAZIONI! Ha vinto il giocatore " + str(turnoInt)
-        messagebox.showinfo("Filetto", s)
-        disable_button(widget)
+
 
 
 def check_diagonal(x, y, move):

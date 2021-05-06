@@ -141,7 +141,6 @@ def check_punteggio(x):
             punteggi[turnoInt - 1] = (punteggi[turnoInt - 1]) + 50
 
 
-
 def check_diagonal(x, y, move):
     flag = True
     counter = 0
@@ -161,6 +160,7 @@ def check_diagonal(x, y, move):
             counter = counter + 1
         i = i + 1
     return counter
+
 
 def check_antidiagonal(x, y, move):
     flag = True

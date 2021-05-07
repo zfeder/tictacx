@@ -1,5 +1,6 @@
 import tkinter as tk
 import numpy as np
+import tksheet
 from tkinter import messagebox, DISABLED
 
 root = tk.Tk()
@@ -197,7 +198,7 @@ nLato = int(lato)
 Giocatori = input('Inserisci il numero di giocatori: ')
 nGiocatori = int(Giocatori)
 print(nGiocatori)
-data = [["" for x in range(nGiocatori)] for y in range(2)]
+data = [["" for x in range(2)] for y in range(nGiocatori)]
 nomiGiocatori = ["" for x in range(nGiocatori)]
 for x in range(nGiocatori):
     s = "Giocatore " + str(x + 1) + " inserisci il tuo nome:"
@@ -212,6 +213,8 @@ for y in range(nLato):
         button = tk.Button(root, text="", font=("Helvetica", 20), height=1, width=5)
         button['command'] = lambda x=x, y=y, arg=button: on_click(arg, y, x)
         button.grid(row=y, column=x, pady=2, padx=2)
+
+
 
 print("Giocatore 1 è il tuo turno")
 punteggi = np.zeros(nGiocatori)

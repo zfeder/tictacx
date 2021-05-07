@@ -78,8 +78,6 @@ def on_click(widget, x, y):
         data[turnoInt - 1][1] = punteggi[turnoInt - 1]
         ref()
 
-
-
         if punteggi[turnoInt - 1] > 49:
             s = "CONGRATULAZIONI! Ha vinto il giocatore " + str(turnoInt)
             messagebox.showinfo("Filetto", s)
@@ -87,7 +85,6 @@ def on_click(widget, x, y):
 
     else:
         print('Casella già occupata')
-
 
 
 def check_row(x, y, move):
@@ -172,7 +169,7 @@ def check_antidiagonal(x, y, move):
     flag = True
     counter = 0
     i = 0
-    while (x + i >= 0) and flag:
+    while (x + i >= 0 and y + i < nLato) and flag:
         if A[x - i][y + i] != move:
             flag = False
         else:
@@ -217,54 +214,22 @@ for y in range(nLato):
         button['command'] = lambda x=x, y=y, arg=button: on_click(arg, y, x)
         button.grid(row=y, column=x, pady=2, padx=2)
 
-
-
 print("Giocatore 1 è il tuo turno")
 punteggi = np.zeros(nGiocatori)
 
 
 class TableModel():
-    '''
-Modello base per contenimento dati, intestazioni e dimensionamento per
-un oggetto "Table".
-'''
 
     def __init__(self, geometry=None, headers=None, data=None):
-        '''
-"Costruttore" del modello di tabella.
-
-Parametri :
-    geometry - dizionario contenente le chiavi :
-                minsizes : lista di interi, dimensioni minime delle colonne
-                weights : lista di interi definente il proporzionamento al
-                           resize, 0 = colonna fissa
-    headers  - lista intestazioni delle colonne
-    data     . lista di liste : valori nelle colonne
-
-Note : mi piacerebbe aggiungere un "maxsize" alle colonne ma non mi sembra supportato
-
-'''
         self.geometry = geometry
         self.headers = headers
         self.data = data
 
 
 class Table(tk.Frame):
-    '''
-Elementare "Tabella" dati, crea una singola riga di etichette di intestazione
-ed n righe di entry per i dati.
-'''
 
     def __init__(self, master=None, model=None):
-        '''
-"Costruttore" della tabella
-
-parametri :
-    master : widget/finestra proprietaria
-    model  : modello della tabella
-'''
         super().__init__(master)
-        # verifica il modello di tabella, se incoerente si auto-distrugge
         if not model.geometry or not model.headers:
             self.destroy()
             return
@@ -272,8 +237,6 @@ parametri :
         self.__populate()
 
     def __populate(self):
-        ''' Popola la tabella con i dati memorizzati nel modello. '''
-        # etichette
         self.labels = []
         h_bg = tk.Frame(self)
         h_bg.grid(row=0, column=0, sticky='ew', padx=0, pady=0)
@@ -282,10 +245,8 @@ parametri :
             lbl.configure(text=self.model.headers[i], relief='raised')
             lbl.grid(row=0, column=i, sticky='ew')
             self.labels.append(lbl)
-        # definizione sfondo delle celle dati
         cells_bg = tk.Frame(self)
         cells_bg.grid(row=1, column=0, sticky='nsew', padx=0, pady=0)
-        # definizione delle celle dati
         self.cells = []
         for i in range(len(self.model.data)):
             row_cells = []
@@ -296,9 +257,7 @@ parametri :
                 c.bind('<FocusIn>', self.__cell_focus)
                 row_cells.append(c)
             self.cells.append(row_cells)
-        # scroolbar ... poi
 
-        # proporzionamento colonne
         for i in range(len(self.model.geometry['minsizes'])):
             if self.model.geometry['minsizes'][i]:
                 h_bg.grid_columnconfigure(i, minsize=self.model.geometry['minsizes'][i])
@@ -306,28 +265,21 @@ parametri :
             if self.model.geometry['weights'][i]:
                 h_bg.grid_columnconfigure(i, weight=self.model.geometry['weights'][i])
                 cells_bg.grid_columnconfigure(i, weight=self.model.geometry['weights'][i])
-        # definizione del "peso" di riga/colonna
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
-        # definizione riga corrente
         self.__curr_row = 0
 
     def __cell_focus(self, evt):
         row = evt.widget.grid_info()['row']
         if row != self.__curr_row:
-            # "decolora" la vecchia riga selezionata
             for c in self.cells[self.__curr_row]:
                 c.configure(bg='white')
             self.__curr_row = row
-            # "colora" la nuova riga selezionata
             for c in self.cells[self.__curr_row]:
                 c.configure(bg='#ffffc0')
 
 
-
-# un primo test "al volo"
 if __name__ == '__main__':
-    # preparo le impostazioni per il "modello"
     g = {'minsizes': [0, 0],
          'weights': [1, 1]
          }
@@ -347,9 +299,7 @@ if __name__ == '__main__':
     app.grid_rowconfigure(0, weight=1)
 
 
-
 def ref():
-
     f.update()
     f.grid(row=0, column=0, sticky='nsew')
     t = Table(f, model)
@@ -360,6 +310,7 @@ def ref():
     f.grid_rowconfigure(0, weight=1)
     app.grid_columnconfigure(0, weight=1)
     app.grid_rowconfigure(0, weight=1)
+
 
 def reset():
     for y in range(nLato):
@@ -379,6 +330,9 @@ def reset():
             button = tk.Button(root, text="", font=("Helvetica", 20), height=1, width=5)
             button['command'] = lambda x=x, y=y, arg=button: on_click(arg, y, x)
             button.grid(row=y, column=x, pady=2, padx=2)
+
+    data[turnoInt - 1][1] = punteggi[turnoInt - 1]
+    ref()
 
     print("Giocatore 1 è il tuo turno")
 

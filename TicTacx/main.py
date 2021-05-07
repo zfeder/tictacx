@@ -1,6 +1,6 @@
 import tkinter as tk
+
 import numpy as np
-import tksheet
 from tkinter import messagebox, DISABLED
 
 root = tk.Tk()
@@ -49,14 +49,14 @@ def on_click(widget, x, y):
                 widget['text'] = nomiGiocatori[0]
                 A[x][y] = 1
                 print(A)
-                print("Giocatore 2 è il tuo turno")
+                turnoGicoatore = ("Giocatore 2 è il tuo turno")
                 parziale = parziale - 1
                 turno = 1
             if parziale == 0:
                 widget['text'] = nomiGiocatori[nGiocatori - 1]
                 A[x][y] = nGiocatori
                 print(A)
-                print("Giocatore 1 è il tuo turno")
+                turnoGicoatore = ("Giocatore 1 è il tuo turno")
                 parziale = nGiocatori
                 turno = nGiocatori
 
@@ -76,7 +76,9 @@ def on_click(widget, x, y):
         print(punteggi[turnoInt - 1])
         print(turnoGicoatore)
         data[turnoInt - 1][1] = punteggi[turnoInt - 1]
-        TableModel.Data.Tables.ReloadAllData()
+        ref()
+
+
 
         if punteggi[turnoInt - 1] > 49:
             s = "CONGRATULAZIONI! Ha vinto il giocatore " + str(turnoInt)
@@ -85,6 +87,7 @@ def on_click(widget, x, y):
 
     else:
         print('Casella già occupata')
+
 
 
 def check_row(x, y, move):
@@ -321,6 +324,7 @@ parametri :
                 c.configure(bg='#ffffc0')
 
 
+
 # un primo test "al volo"
 if __name__ == '__main__':
     # preparo le impostazioni per il "modello"
@@ -342,6 +346,20 @@ if __name__ == '__main__':
     app.grid_columnconfigure(0, weight=1)
     app.grid_rowconfigure(0, weight=1)
 
+
+
+def ref():
+
+    f.update()
+    f.grid(row=0, column=0, sticky='nsew')
+    t = Table(f, model)
+    t.grid(row=0, column=0, sticky='nsew')
+    b = tk.Button(f, text='Chiudi', command=app.destroy)
+    b.grid(row=1, column=0, sticky='ew')
+    f.grid_columnconfigure(0, weight=1)
+    f.grid_rowconfigure(0, weight=1)
+    app.grid_columnconfigure(0, weight=1)
+    app.grid_rowconfigure(0, weight=1)
 
 def reset():
     for y in range(nLato):
